@@ -6,22 +6,22 @@ const About = () => {
     {
       icon: Heart,
       title: 'Compassionate Care',
-      description: 'Every mother deserves to feel supported, understood, and cared for during her postpartum journey.'
+      description: 'Every woman deserves to feel supported, understood, and cared for during her postpartum journey.'
     },
     {
       icon: Users,
       title: 'Community Building',
-      description: 'We believe in the power of connection and creating lasting support networks for Austin area mothers.'
+      description: 'We believe in the power of connection and creating lasting support networks for women everywhere.'
     },
     {
       icon: Award,
       title: 'Quality Support',
-      description: 'Professional, evidence-based postpartum care tailored to each mother\'s unique needs and circumstances.'
+      description: 'Professional, evidence-based postpartum care tailored to each woman\'s unique needs and circumstances.'
     },
     {
       icon: Target,
       title: 'Holistic Approach',
-      description: 'Addressing emotional, physical, and practical needs to support the whole mother, not just the symptoms.'
+      description: 'Addressing emotional, physical, and practical needs to support the whole woman, not just the symptoms.'
     }
   ];
 
@@ -35,8 +35,8 @@ const About = () => {
               About Village For Her
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Founded on the belief that every mother deserves a village, we provide compassionate 
-              postpartum care and support to new mothers throughout Austin, TX and surrounding communities.
+              Founded on the belief that every woman deserves a village, we provide compassionate 
+              postpartum care and support to women everywhere. While our roots are in Austin, TX, our mission is to serve and uplift women across the nation and beyond.
             </p>
           </div>
         </div>
@@ -53,22 +53,19 @@ const About = () => {
               <div className="space-y-4 text-lg text-gray-600">
                 <p>
                   When I became a mother for the first time, I quickly realized how isolating and overwhelming 
-                  the postpartum period could be. Despite living in a vibrant city like Austin, I felt alone 
+                  the postpartum period could be. Despite living in a vibrant city, I felt alone 
                   and unprepared for the emotional and physical challenges that followed childbirth.
                 </p>
                 <p>
                   Like many new mothers, I didn't have family nearby to help. I struggled with breastfeeding, 
                   sleep deprivation, and the emotional rollercoaster that comes with hormonal changes. 
-                  I wished for a village – a community of support that understood what I was going through.
+                  I wished for a village, a community of support that understood what I was going through.
                 </p>
                 <p>
-                  That experience inspired me to create Village For Her. I wanted to ensure that no mother 
-                  in the Austin area would have to navigate the postpartum journey alone. Every mother 
-                  deserves to feel supported, celebrated, and cared for during this precious but challenging time.
+                  That experience inspired me to create Village For Her. I wanted to ensure that no woman would have to navigate the postpartum journey alone. Every woman deserves to feel supported, celebrated, and cared for during this precious but challenging time.
                 </p>
                 <p>
-                  Today, Village For Her serves mothers throughout Austin, Pflugerville, Round Rock, and 
-                  surrounding areas, providing the village that every new mother needs and deserves.
+                  Today, Village For Her serves women everywhere, providing the village that every new mother needs and deserves. Our journey began in Austin, TX, but our heart and mission are global.
                 </p>
               </div>
               <div className="mt-8 p-6 bg-warm-blush/20 rounded-xl">
@@ -82,13 +79,13 @@ const About = () => {
             <div className="relative">
               <img
                 src="https://images.pexels.com/photos/3985363/pexels-photo-3985363.jpeg?auto=compress&cs=tinysrgb&w=800"
-                alt="Village For Her founder with baby - Austin postpartum care"
+                alt="Village For Her founder with baby - Postpartum care"
                 className="rounded-2xl shadow-xl w-full h-96 object-cover"
               />
               <div className="absolute -bottom-6 -right-6 bg-white p-4 rounded-xl shadow-lg">
                 <div className="text-center">
                   <p className="text-2xl font-bold text-soft-terracotta">500+</p>
-                  <p className="text-sm text-gray-600">Mothers Supported</p>
+                  <p className="text-sm text-gray-600">Women Supported</p>
                 </div>
               </div>
             </div>
@@ -104,7 +101,7 @@ const About = () => {
               Our Mission & Values
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              We're committed to transforming the postpartum experience for mothers in Austin, TX 
+              We're committed to transforming the postpartum experience for women everywhere 
               through compassionate care, community connection, and comprehensive support.
             </p>
           </div>
@@ -129,10 +126,7 @@ const About = () => {
               Our Mission
             </h3>
             <p className="text-lg text-gray-600 text-center max-w-4xl mx-auto leading-relaxed">
-              To provide comprehensive, compassionate postpartum care and support to new mothers in the 
-              Austin, Texas area. We believe that every mother deserves to feel supported, understood, 
-              and empowered during her postpartum journey. Through personalized care, community building, 
-              and practical support, we help mothers navigate this transformative time with confidence and joy.
+              To provide comprehensive, compassionate postpartum care and support to women everywhere. We believe that every woman deserves to feel supported, understood, and empowered during her postpartum journey. Through personalized care, community building, and practical support, we help women navigate this transformative time with confidence and joy.
             </p>
           </div>
         </div>
@@ -145,48 +139,30 @@ const About = () => {
             <div>
               <img
                 src="https://images.pexels.com/photos/6849400/pexels-photo-6849400.jpeg?auto=compress&cs=tinysrgb&w=800"
-                alt="Postpartum support group in Austin, TX"
+                alt="Postpartum support group"
                 className="rounded-2xl shadow-xl w-full h-96 object-cover"
               />
             </div>
             <div>
               <h2 className="text-3xl lg:text-4xl font-heading font-bold text-gray-900 mb-6">
-                Why Austin Mothers Choose Us
+                Why Women Choose Us
               </h2>
               <div className="space-y-6">
                 <div className="flex items-start space-x-4">
                   <div className="w-6 h-6 bg-soft-terracotta rounded-full flex-shrink-0 mt-1"></div>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Local Austin Expertise</h3>
-                    <p className="text-gray-600">
-                      Deep understanding of the Austin area healthcare system, resources, and community networks.
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-4">
-                  <div className="w-6 h-6 bg-soft-terracotta rounded-full flex-shrink-0 mt-1"></div>
-                  <div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-2">Personalized Care Plans</h3>
                     <p className="text-gray-600">
-                      Every mother's journey is unique. We create customized support plans tailored to your specific needs.
+                      Every woman's journey is unique. We create customized support plans tailored to your specific needs.
                     </p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-4">
                   <div className="w-6 h-6 bg-soft-terracotta rounded-full flex-shrink-0 mt-1"></div>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Evidence-Based Support</h3>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Global Community</h3>
                     <p className="text-gray-600">
-                      Our approaches are grounded in the latest research on postpartum care and maternal mental health.
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-4">
-                  <div className="w-6 h-6 bg-soft-terracotta rounded-full flex-shrink-0 mt-1"></div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Ongoing Community</h3>
-                    <p className="text-gray-600">
-                      Connect with other Austin area mothers and build lasting friendships and support networks.
+                      We connect women from all backgrounds, locations, and walks of life, fostering a supportive and inclusive community.
                     </p>
                   </div>
                 </div>

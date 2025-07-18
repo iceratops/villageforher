@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Phone, Mail, MapPin, Clock, Send, MessageCircle, Calendar } from 'lucide-react';
+import { Mail, MapPin, Clock, Send, MessageCircle, Calendar } from 'lucide-react';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -38,16 +38,12 @@ const Contact = () => {
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
               We're here to support you on your postpartum journey. Reach out to us for questions, 
-              consultations, or immediate support. Serving Austin, TX and surrounding areas.
+              consultations, or immediate support. Founded in Austin, TX, we now serve women everywhere.
             </p>
             <div className="flex items-center justify-center space-x-6 text-sm text-gray-500">
               <div className="flex items-center space-x-2">
                 <Clock className="h-4 w-4" />
                 <span>24/7 Emergency Support</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Phone className="h-4 w-4" />
-                <span>Same-Day Response</span>
               </div>
               <div className="flex items-center space-x-2">
                 <MessageCircle className="h-4 w-4" />
@@ -235,18 +231,7 @@ const Contact = () => {
                 <div className="space-y-4">
                   <div className="flex items-center space-x-4">
                     <div className="w-12 h-12 bg-warm-blush/20 rounded-full flex items-center justify-center">
-                      <Phone className="h-6 w-6 text-soft-terracotta" />
-                    </div>
-                    <div>
-                      <p className="font-semibold text-gray-900">Phone</p>
-                      <p className="text-gray-600">(512) 555-0123</p>
-                      <p className="text-sm text-gray-500">24/7 Emergency Support Available</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-sage/20 rounded-full flex items-center justify-center">
-                      <Mail className="h-6 w-6 text-sage" />
+                      <Mail className="h-6 w-6 text-soft-terracotta" />
                     </div>
                     <div>
                       <p className="font-semibold text-gray-900">Email</p>
@@ -256,8 +241,8 @@ const Contact = () => {
                   </div>
                   
                   <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-warm-blush/20 rounded-full flex items-center justify-center">
-                      <MapPin className="h-6 w-6 text-soft-terracotta" />
+                    <div className="w-12 h-12 bg-sage/20 rounded-full flex items-center justify-center">
+                      <MapPin className="h-6 w-6 text-sage" />
                     </div>
                     <div>
                       <p className="font-semibold text-gray-900">Service Area</p>
@@ -291,14 +276,6 @@ const Contact = () => {
                     <div className="text-left">
                       <p className="font-semibold text-gray-900">Schedule Consultation</p>
                       <p className="text-sm text-gray-600">Book your initial consultation</p>
-                    </div>
-                  </button>
-                  
-                  <button className="w-full flex items-center space-x-3 p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-200">
-                    <Phone className="h-6 w-6 text-sage" />
-                    <div className="text-left">
-                      <p className="font-semibold text-gray-900">Emergency Support</p>
-                      <p className="text-sm text-gray-600">Immediate help available</p>
                     </div>
                   </button>
                   
@@ -338,7 +315,7 @@ const Contact = () => {
               Our Service Area
             </h2>
             <p className="text-xl text-gray-600">
-              Proudly serving new mothers throughout the Austin metropolitan area
+              Proudly founded in Austin, TX, now supporting women everywhere.
             </p>
           </div>
           
@@ -348,8 +325,7 @@ const Contact = () => {
                 <MapPin className="h-12 w-12 text-soft-terracotta mx-auto mb-4" />
                 <p className="text-gray-600 mb-2">Interactive Map Coming Soon</p>
                 <p className="text-sm text-gray-500">
-                  Currently serving Austin, Pflugerville, Round Rock, Cedar Park, 
-                  Leander, Georgetown, Lakeway, and Bee Cave
+                  Our journey began in Austin, TX, but our heart and mission are global.
                 </p>
               </div>
             </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, Phone, Mail, MapPin, Instagram, Facebook } from 'lucide-react';
+import { Heart, Mail, Instagram, Facebook } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -14,8 +14,7 @@ const Footer = () => {
               <span className="text-xl font-heading font-semibold">Village For Her</span>
             </Link>
             <p className="text-gray-300 mb-4 max-w-md">
-              Supporting new mothers in Austin, TX with compassionate postpartum care, 
-              emotional support, and practical help during your most precious journey.
+              Supporting women everywhere with compassionate postpartum care, emotional support, and practical help during your most precious journey. Founded in Austin, TX, we are honored to serve women across the nation and beyond.
             </p>
             <div className="flex space-x-4">
               <a href="https://www.instagram.com/villageforher/" target="_blank" className="text-gray-400 hover:text-warm-blush transition-colors duration-200">
@@ -43,20 +42,13 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Contact</h3>
             <div className="space-y-2">
               <div className="flex items-center space-x-2">
-                <Phone className="h-4 w-4 text-warm-blush" />
-                <span className="text-gray-300">
-                  <a href="tel:5125550123">(512) 555-0123</a>
-                </span>
-              </div>
-              <div className="flex items-center space-x-2">
                 <Mail className="h-4 w-4 text-warm-blush" />
                 <span className="text-gray-300">
                   <a href="mailto:hello@villageforher.com">hello@villageforher.com</a>
                 </span>
               </div>
               <div className="flex items-center space-x-2">
-                <MapPin className="h-4 w-4 text-warm-blush" />
-                <span className="text-gray-300">Austin, TX & Surrounding Areas</span>
+                <span className="text-gray-300 text-sm italic">Based in Austin, TX & serving women everywhere</span>
               </div>
             </div>
           </div>
@@ -64,8 +56,7 @@ const Footer = () => {
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center">
           <p className="text-gray-400">
-            © 2025 Village For Her. All rights reserved. | 
-            <span className="ml-1">Postpartum Care Services in Austin, TX & Surrounding Areas</span>
+            © 2025 Village For Her. All rights reserved. | Supporting women on their postpartum journey, everywhere.
           </p>
         </div>
       </div>
