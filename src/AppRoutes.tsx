@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { preventCartAutoOpen, forceCloseCart } from './lib/snipcart';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -34,20 +34,18 @@ const AppRoutes: React.FC = () => {
       <div className="min-h-screen bg-warm-white">
         <Header />
         <main>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/services" element={<Services />} />
-              <Route path="/products" element={<Products />} />
-              <Route path="/products/:productId" element={<ProductDetail />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/chat" element={<Chat />} />
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/products/:productId" element={<ProductDetail />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/chat" element={<Chat />} />
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
         </main>
         <Footer />
         <FloatingChatWidget />
