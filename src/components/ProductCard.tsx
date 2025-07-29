@@ -12,6 +12,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onViewDetails }) => 
   const stock = product['Stock Count'] ?? 0;
   const outOfStock = stock === 0;
   const lowStock = !!product['Low Stock Alert'] && !outOfStock;
+
   return (
     <div className={`bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden flex flex-col`}>
       <div className="relative">
@@ -43,8 +44,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onViewDetails }) => 
               data-item-description={product['Short Description']}
               data-item-image={mainImage}
               data-item-name={product['Product Name']}
-              data-item-custom1-name="SKU"
-              data-item-custom1-value={product['SKU']}
+              data-item-min-quantity="1"
+              data-item-stackable="true"
               disabled={outOfStock}
             >
               Add to Cart

@@ -2,49 +2,19 @@ import React, { useState, useEffect, useRef } from 'react';
 import HealingChatWindow from './HealingChatWindow';
 import UpgradePrompt from './UpgradePrompt';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useOnboarding } from '../hooks/useOnboarding';
+import { useUserId } from '../hooks/useUserId';
 
-// Helper for onboarding state (sessionStorage)
-function getOnboardingComplete() {
-  try {
-    return sessionStorage.getItem('vfh_onboarding_complete') === 'true';
-  } catch {
-    return false;
-  }
-}
-function getUserId() {
-  try {
-    return sessionStorage.getItem('vfh_userId');
-  } catch {
-    return null;
-  }
-}
-
-// Hardcoded premium flag for now
 const isPremium = false;
 
 const FloatingChatWidget: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [onboardingComplete, setOnboardingComplete] = useState(getOnboardingComplete());
-  const [userId, setUserId] = useState<string | null>(getUserId());
+  const { onboardingComplete } = useOnboarding();
+  const userId = useUserId();
   const location = useLocation();
   const navigate = useNavigate();
   const userClickedRef = useRef(false);
-
-  useEffect(() => {
-    try {
-      setUserId(getUserId());
-    } catch {}
-  }, []);
-
-  // Listen for onboarding completion and auth in sessionStorage (in case it changes elsewhere)
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setOnboardingComplete(getOnboardingComplete());
-      setUserId(getUserId());
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
 
   useEffect(() => {
     if (open && !userId && userClickedRef.current) {
@@ -54,12 +24,10 @@ const FloatingChatWidget: React.FC = () => {
     }
   }, [open, userId, location, navigate]);
 
-  // Animate modal open/close
   useEffect(() => {
     if (open) {
       setShowModal(true);
     } else {
-      // Wait for animation before removing from DOM
       const timeout = setTimeout(() => setShowModal(false), 300);
       return () => clearTimeout(timeout);
     }

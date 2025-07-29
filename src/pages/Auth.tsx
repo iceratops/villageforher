@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GoogleOAuthProvider, GoogleLogin, CredentialResponse } from '@react-oauth/google';
-
-const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+import { GOOGLE_CLIENT_ID } from '../config/google';
 
 function parseJwt(token: string) {
   try {
@@ -82,7 +81,7 @@ const Auth: React.FC = () => {
   }
 
   return (
-    <GoogleOAuthProvider clientId={CLIENT_ID}>
+    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
       <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-pink-50">
         <div className="bg-white rounded-xl shadow-lg p-8 max-w-sm w-full text-center">
           <h2 className="text-2xl font-semibold mb-4 text-pink-700">Sign in to Village For Her</h2>

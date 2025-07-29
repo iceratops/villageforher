@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { useTallyEmbed } from '../hooks/useTallyEmbed';
 
 declare global {
   interface Window {
@@ -8,30 +9,7 @@ declare global {
 }
 
 const Home = () => {
-  useEffect(() => {
-    const w = "https://tally.so/widgets/embed.js";
-    const v = function() {
-      if (typeof window.Tally !== "undefined") {
-        window.Tally.loadEmbeds();
-      } else {
-        document.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((e) => {
-          const iframe = e as HTMLIFrameElement;
-          if (iframe.dataset && iframe.dataset.tallySrc) {
-            iframe.src = iframe.dataset.tallySrc;
-          }
-        });
-      }
-    };
-    if (typeof window.Tally !== "undefined") {
-      v();
-    } else if (!document.querySelector(`script[src="${w}"]`)) {
-      const s = document.createElement("script");
-      s.src = w;
-      s.onload = v;
-      s.onerror = v;
-      document.body.appendChild(s);
-    }
-  }, []);
+  useTallyEmbed();
 
   return (
     <div className="animate-fade-in">

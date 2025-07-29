@@ -1,34 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useTallyIntake } from '../hooks/useTallyIntake';
+import { DEFAULT_TALLY_URL } from '../lib/tally';
 
 interface TallyIntakeGateProps {
   onComplete: () => void;
-  tallyUrl?: string; // Placeholder for Tally form URL
+  tallyUrl?: string;
 }
 
-const DEFAULT_TALLY_URL = 'https://tally.so/r/PLACEHOLDER'; // Replace with your Tally form URL
-
 const TallyIntakeGate: React.FC<TallyIntakeGateProps> = ({ onComplete, tallyUrl = DEFAULT_TALLY_URL }) => {
-  const [submitted, setSubmitted] = useState(false);
-  const [loadError, setLoadError] = useState(false);
-
-  // Listen for Tally form submission via postMessage (for future real integration)
-  useEffect(() => {
-    function handleMessage(event: MessageEvent) {
-      // Placeholder: In real use, check event.origin and event.data for Tally's submission event
-      if (event.data === 'tally-form-submitted') {
-        setSubmitted(true);
-        onComplete();
-      }
-    }
-    window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
-  }, [onComplete]);
-
-  // Simulate completion for now (remove for real integration)
-  const simulateSubmit = () => {
-    setSubmitted(true);
-    onComplete();
-  };
+  const { submitted, loadError, setLoadError, simulateSubmit } = useTallyIntake(onComplete);
 
   if (submitted) return null;
 
@@ -39,7 +19,6 @@ const TallyIntakeGate: React.FC<TallyIntakeGateProps> = ({ onComplete, tallyUrl 
         <p className="mb-4 text-gray-600">Please complete this short intake form to begin.</p>
         {!loadError ? (
           <div className="w-full h-96 mb-4">
-            {/* Placeholder for Tally form embed */}
             <iframe
               src={tallyUrl}
               title="Tally Intake Form"
@@ -58,7 +37,6 @@ const TallyIntakeGate: React.FC<TallyIntakeGateProps> = ({ onComplete, tallyUrl 
             </button>
           </div>
         )}
-        {/* Simulate submit for now */}
         <button
           className="px-6 py-2 bg-pink-600 text-white rounded-lg shadow hover:bg-pink-700 transition"
           onClick={simulateSubmit}

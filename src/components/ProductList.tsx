@@ -1,25 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import ProductCard from './ProductCard';
-import { AirtableService } from '../services/airtableService';
+import { useProducts } from '../hooks/useProducts';
 import { useNavigate } from 'react-router-dom';
 
 const ProductList: React.FC = () => {
-  const [products, setProducts] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { products, loading, error } = useProducts();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    AirtableService.fetchProducts()
-      .then((data) => {
-        setProducts(data.filter((p: any) => p['Visible on Site']));
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError('Failed to load products.');
-        setLoading(false);
-      });
-  }, []);
 
   if (loading) return <div className="text-center py-16 text-gray-500">Loading products…</div>;
   if (error) return <div className="text-center py-16 text-red-500">{error}</div>;

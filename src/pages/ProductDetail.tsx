@@ -1,28 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { AirtableService } from '../services/airtableService';
+import { useProductDetail } from '../hooks/useProductDetail';
 
 const ProductDetail: React.FC = () => {
   const { productId } = useParams<{ productId: string }>();
-  const [product, setProduct] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { product, loading, error } = useProductDetail(productId);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    // Try to fetch by slug first, then fallback to ID
-    AirtableService.fetchProducts()
-      .then((products: any[]) => {
-        let found = products.find((p: any) => p['Slug'] === productId || p.id === productId);
-        if (!found) throw new Error('Product not found');
-        setProduct(found);
-        setLoading(false);
-      })
-      .catch(() => {
-        setError('Product not found.');
-        setLoading(false);
-      });
-  }, [productId]);
 
   if (loading) return <div className="text-center py-16 text-gray-500">Loading product</div>;
   if (error || !product) return <div className="text-center py-16 text-red-500">{error || 'Product not found.'}</div>;
@@ -74,8 +57,8 @@ const ProductDetail: React.FC = () => {
             data-item-description={product['Short Description']}
             data-item-image={mainImage}
             data-item-name={product['Product Name']}
-            data-item-custom1-name="SKU"
-            data-item-custom1-value={product['SKU']}
+            data-item-min-quantity="1"
+            data-item-stackable="true"
             disabled={outOfStock}
           >
             {outOfStock ? 'Out of Stock' : 'Add to Cart'}

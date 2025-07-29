@@ -1,0 +1,1 @@
+export { openCart, closeCart } from './snipcart'; 

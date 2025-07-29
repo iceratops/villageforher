@@ -1,76 +1,24 @@
 import React, { useState, useRef, useEffect } from 'react';
+import {
+  Message,
+  PROFANITY_REGEX,
+  escapeHtml,
+  sendToHealingAgent,
+  SYSTEM_CONTEXT,
+  MAX_MESSAGE_LENGTH,
+  SESSION_MESSAGES_KEY,
+  SESSION_RITUALS_KEY,
+  loadMessages,
+  saveMessages,
+  loadRitualsToday,
+  saveRitualsToday,
+  sanitizeInput,
+  isRepeatMessage
+} from '../lib/chat';
 
 interface HealingChatWindowProps {
   userId: string | null;
   isPremium: boolean;
-}
-
-interface Message {
-  sender: 'user' | 'assistant' | 'system';
-  text: string;
-}
-
-// Profanity/injection filter (basic)
-const PROFANITY_REGEX = /(damn|shit|fuck|bitch|asshole|<script|javascript:|onerror=|onload=)/i;
-
-// HTML escape utility
-function escapeHtml(text: string): string {
-  return text.replace(/[&<>'"/]/g, (char) => ({
-    '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;', '/': '&#x2F;'
-  }[char] || ''));
-}
-
-// Simulated AI handler
-async function sendToHealingAgent(userId: string | null, userInput: string, context: Message[]): Promise<string> {
-  // Simulate delay
-  await new Promise((r) => setTimeout(r, 1200));
-  // Simulated responses
-  const responses = [
-    "I'm here for you. Can you tell me more about how you're feeling right now?",
-    "Thank you for sharing. Remember, your emotions are valid.",
-    "Let's take a deep breath together. What would you like to focus on today?",
-    "Would you like to try a gentle ritual or reflection exercise?"
-  ];
-  // Cycle through responses
-  return responses[(context.length - 1) % responses.length];
-}
-
-// System context (injected on first message)
-const SYSTEM_CONTEXT: Message[] = [
-  { sender: 'system', text: "Mother's name: Sarah" },
-  { sender: 'system', text: "Baby's name: Luna" },
-  { sender: 'system', text: "Birth type: Natural" },
-  { sender: 'system', text: "Primary emotion: Hopeful" }
-];
-
-const MAX_MESSAGE_LENGTH = 1000;
-
-const SESSION_MESSAGES_KEY = 'vfh_chat_messages';
-const SESSION_RITUALS_KEY = 'vfh_rituals_today';
-
-function loadMessages(): Message[] {
-  try {
-    const raw = sessionStorage.getItem(SESSION_MESSAGES_KEY);
-    if (raw) return JSON.parse(raw);
-  } catch {}
-  return [...SYSTEM_CONTEXT];
-}
-function saveMessages(messages: Message[]) {
-  try {
-    sessionStorage.setItem(SESSION_MESSAGES_KEY, JSON.stringify(messages));
-  } catch {}
-}
-function loadRitualsToday(): number {
-  try {
-    const raw = sessionStorage.getItem(SESSION_RITUALS_KEY);
-    if (raw) return parseInt(raw, 10) || 0;
-  } catch {}
-  return 0;
-}
-function saveRitualsToday(n: number) {
-  try {
-    sessionStorage.setItem(SESSION_RITUALS_KEY, n.toString());
-  } catch {}
 }
 
 const HealingChatWindow: React.FC<HealingChatWindowProps> = ({ userId, isPremium }) => {
@@ -82,11 +30,9 @@ const HealingChatWindow: React.FC<HealingChatWindowProps> = ({ userId, isPremium
   const chatEndRef = useRef<HTMLDivElement | null>(null);
   const prevMsgCountRef = useRef<number>(messages.length);
 
-  // Sync messages and ritualsToday to sessionStorage
   useEffect(() => { saveMessages(messages); }, [messages]);
   useEffect(() => { saveRitualsToday(ritualsToday); }, [ritualsToday]);
 
-  // Listen for sessionStorage changes from other tabs/components
   useEffect(() => {
     function handleStorage(e: StorageEvent) {
       if (e.key === SESSION_MESSAGES_KEY) {
@@ -99,7 +45,6 @@ const HealingChatWindow: React.FC<HealingChatWindowProps> = ({ userId, isPremium
     return () => window.removeEventListener('storage', handleStorage);
   }, []);
 
-  // Auto-scroll to bottom only when a new message is added
   useEffect(() => {
     if (messages.length > prevMsgCountRef.current) {
       chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -107,25 +52,8 @@ const HealingChatWindow: React.FC<HealingChatWindowProps> = ({ userId, isPremium
     prevMsgCountRef.current = messages.length;
   }, [messages]);
 
-  // Ritual limit for free users
   const canSend = isPremium || ritualsToday < 1;
 
-  // Input validation and sanitization
-  function sanitizeInput(text: string) {
-    let clean = text.trim();
-    if (!clean) return '';
-    if (clean.length > MAX_MESSAGE_LENGTH) clean = clean.slice(0, MAX_MESSAGE_LENGTH);
-    if (PROFANITY_REGEX.test(clean)) return '';
-    clean = escapeHtml(clean);
-    return clean;
-  }
-
-  // Prevent repeated messages
-  function isRepeatMessage(text: string) {
-    return messages.length > 0 && messages[messages.length - 1].text === text;
-  }
-
-  // Handle send
   async function handleSend() {
     setError(null);
     const clean = sanitizeInput(input);
@@ -133,7 +61,7 @@ const HealingChatWindow: React.FC<HealingChatWindowProps> = ({ userId, isPremium
       setError('Please enter a valid, respectful message.');
       return;
     }
-    if (isRepeatMessage(clean)) {
+    if (isRepeatMessage(messages, clean)) {
       setError('Please avoid repeating the same message.');
       return;
     }
@@ -144,14 +72,12 @@ const HealingChatWindow: React.FC<HealingChatWindowProps> = ({ userId, isPremium
     setMessages((msgs) => [...msgs, { sender: 'user', text: clean }]);
     setInput('');
     setLoading(true);
-    // Simulate AI response
     const reply = await sendToHealingAgent(userId, clean, messages);
     setMessages((msgs) => [...msgs, { sender: 'assistant', text: reply }]);
     setLoading(false);
     if (!isPremium) setRitualsToday((n) => n + 1);
   }
 
-  // Handle enter key
   function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === 'Enter') handleSend();
   }

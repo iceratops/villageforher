@@ -1,11 +1,9 @@
-const BASE_ID = import.meta.env.VITE_AIRTABLE_BASE_ID;
-const TABLE_NAME = import.meta.env.VITE_AIRTABLE_TABLE_NAME;
-const ACCESS_TOKEN = import.meta.env.VITE_AIRTABLE_ACCESS_TOKEN;
+import { AIRTABLE_CONFIG } from '../config/airtable';
 
-const API_URL = `https://api.airtable.com/v0/${BASE_ID}/${TABLE_NAME}`;
+const API_URL = `https://api.airtable.com/v0/${AIRTABLE_CONFIG.BASE_ID}/${AIRTABLE_CONFIG.TABLE_NAME}`;
 
 const headers = {
-  Authorization: `Bearer ${ACCESS_TOKEN}`,
+  Authorization: `Bearer ${AIRTABLE_CONFIG.ACCESS_TOKEN}`,
   'Content-Type': 'application/json',
 };
 

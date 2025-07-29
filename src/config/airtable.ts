@@ -1,0 +1,5 @@
+export const AIRTABLE_CONFIG = {
+  BASE_ID: import.meta.env.VITE_AIRTABLE_BASE_ID,
+  TABLE_NAME: import.meta.env.VITE_AIRTABLE_TABLE_NAME,
+  ACCESS_TOKEN: import.meta.env.VITE_AIRTABLE_ACCESS_TOKEN,
+}; 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, Heart, MessageCircleHeart, User, ShoppingCart } from 'lucide-react';
-import { openCart } from './CartContext';
+import { openCart, closeCart } from './CartContext';
 
 function getSessionUserId(): string | null {
   try {
@@ -23,11 +23,15 @@ const Header = () => {
     { name: 'About', href: '/about' },
     { name: 'Services', href: '/services' },
     { name: 'Products', href: '/products' },
-    { name: 'Payment', href: '/payment' },
     { name: 'Contact', href: '/contact' },
   ];
 
   const isActive = (path: string) => location.pathname === path;
+
+  const handleNavigation = (href: string) => {
+    closeCart();
+    navigate(href);
+  };
 
   const handleLogout = () => {
     try {
@@ -41,7 +45,7 @@ const Header = () => {
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2 group">
+          <Link to="/" className="flex items-center space-x-2 group" onClick={() => closeCart()}>
             <Heart className="h-8 w-8 text-soft-terracotta group-hover:text-deep-sage transition-colors duration-300" />
             <span className="text-xl font-heading font-semibold text-gray-900">
               Village For Her
@@ -51,9 +55,9 @@ const Header = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navigation.map((item) => (
-              <Link
+              <button
                 key={item.name}
-                to={item.href}
+                onClick={() => handleNavigation(item.href)}
                 className={`text-sm font-medium transition-colors duration-200 hover:text-soft-terracotta ${
                   isActive(item.href)
                     ? 'text-soft-terracotta border-b-2 border-soft-terracotta pb-1'
@@ -61,11 +65,11 @@ const Header = () => {
                 }`}
               >
                 {item.name}
-              </Link>
+              </button>
             ))}
             {/* Healing Companion Highlighted Link */}
-            <Link
-              to="/chat"
+            <button
+              onClick={() => handleNavigation('/chat')}
               className={`flex items-center gap-2 px-4 py-2 rounded-full shadow-md border-2 border-pink-200 bg-gradient-to-r from-pink-50 to-blue-50 font-semibold text-pink-700 hover:bg-pink-100 hover:text-pink-800 transition-all duration-200 ${
                 isActive('/chat') ? 'ring-2 ring-pink-300 scale-105' : ''
               } animate-pulse`}
@@ -73,7 +77,7 @@ const Header = () => {
             >
               <MessageCircleHeart className="h-5 w-5 text-pink-400" />
               Healing Companion
-            </Link>
+            </button>
             {/* Cart Icon */}
             <div className="ml-4 relative group">
               <button onClick={openCart} className="relative focus:outline-none">
@@ -83,12 +87,12 @@ const Header = () => {
             </div>
             {/* Login/Profile Button */}
             {!userId ? (
-              <Link
-                to="/auth"
+              <button
+                onClick={() => handleNavigation('/auth')}
                 className="ml-4 px-4 py-2 rounded-full bg-blue-50 text-blue-700 border border-blue-200 shadow hover:bg-blue-100 hover:text-blue-900 transition-all font-medium"
               >
                 Login
-              </Link>
+              </button>
             ) : (
               <div className="ml-4 relative">
                 <button
@@ -101,20 +105,20 @@ const Header = () => {
                 </button>
                 {profileOpen && (
                   <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
-                    <Link
-                      to="/profile"
-                      className="block px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-t-lg"
+                    <button
+                      onClick={() => { setProfileOpen(false); handleNavigation('/profile'); }}
+                      className="w-full text-left px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-t-lg"
                     >
                       My Profile
-                    </Link>
-                    <Link
-                      to="/orders"
-                      className="block px-4 py-2 text-gray-700 hover:bg-blue-50"
+                    </button>
+                    <button
+                      onClick={() => { setProfileOpen(false); handleNavigation('/orders'); }}
+                      className="w-full text-left px-4 py-2 text-gray-700 hover:bg-blue-50"
                     >
                       My Orders
-                    </Link>
+                    </button>
                     <button
-                      onClick={handleLogout}
+                      onClick={() => { setProfileOpen(false); handleLogout(); }}
                       className="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 rounded-b-lg"
                     >
                       Log out
@@ -141,23 +145,21 @@ const Header = () => {
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 bg-warm-white border-t border-gray-200">
               {navigation.map((item) => (
-                <Link
+                <button
                   key={item.name}
-                  to={item.href}
-                  onClick={() => setIsMenuOpen(false)}
-                  className={`block px-3 py-2 text-base font-medium transition-colors duration-200 hover:text-soft-terracotta hover:bg-warm-blush/20 rounded-md ${
+                  onClick={() => { setIsMenuOpen(false); handleNavigation(item.href); }}
+                  className={`block w-full text-left px-3 py-2 text-base font-medium transition-colors duration-200 hover:text-soft-terracotta hover:bg-warm-blush/20 rounded-md ${
                     isActive(item.href)
                       ? 'text-soft-terracotta bg-warm-blush/30'
                       : 'text-gray-700'
                   }`}
                 >
                   {item.name}
-                </Link>
+                </button>
               ))}
               {/* Healing Companion Highlighted Link (Mobile) */}
-              <Link
-                to="/chat"
-                onClick={() => setIsMenuOpen(false)}
+              <button
+                onClick={() => { setIsMenuOpen(false); handleNavigation('/chat'); }}
                 className={`flex items-center gap-2 px-4 py-2 mt-2 rounded-full shadow-md border-2 border-pink-200 bg-gradient-to-r from-pink-50 to-blue-50 font-semibold text-pink-700 hover:bg-pink-100 hover:text-pink-800 transition-all duration-200 ${
                   isActive('/chat') ? 'ring-2 ring-pink-300 scale-105' : ''
                 } animate-pulse`}
@@ -165,7 +167,7 @@ const Header = () => {
               >
                 <MessageCircleHeart className="h-5 w-5 text-pink-400" />
                 Healing Companion
-              </Link>
+              </button>
               {/* Cart Icon (Mobile) */}
               <button
                 onClick={() => { setIsMenuOpen(false); openCart(); }}
@@ -178,13 +180,12 @@ const Header = () => {
               </button>
               {/* Login/Profile Button (Mobile) */}
               {!userId ? (
-                <Link
-                  to="/auth"
-                  onClick={() => setIsMenuOpen(false)}
+                <button
+                  onClick={() => { setIsMenuOpen(false); handleNavigation('/auth'); }}
                   className="block mt-2 px-4 py-2 rounded-full bg-blue-50 text-blue-700 border border-blue-200 shadow hover:bg-blue-100 hover:text-blue-900 transition-all font-medium"
                 >
                   Login
-                </Link>
+                </button>
               ) : (
                 <div className="mt-2 relative">
                   <button
@@ -197,22 +198,20 @@ const Header = () => {
                   </button>
                   {profileOpen && (
                     <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
-                      <Link
-                        to="/profile"
-                        className="block px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-t-lg"
-                        onClick={() => setIsMenuOpen(false)}
+                      <button
+                        onClick={() => { setProfileOpen(false); setIsMenuOpen(false); handleNavigation('/profile'); }}
+                        className="w-full text-left px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-t-lg"
                       >
                         My Profile
-                      </Link>
-                      <Link
-                        to="/orders"
-                        className="block px-4 py-2 text-gray-700 hover:bg-blue-50"
-                        onClick={() => setIsMenuOpen(false)}
+                      </button>
+                      <button
+                        onClick={() => { setProfileOpen(false); setIsMenuOpen(false); handleNavigation('/orders'); }}
+                        className="w-full text-left px-4 py-2 text-gray-700 hover:bg-blue-50"
                       >
                         My Orders
-                      </Link>
+                      </button>
                       <button
-                        onClick={() => { handleLogout(); setIsMenuOpen(false); }}
+                        onClick={() => { setProfileOpen(false); setIsMenuOpen(false); handleLogout(); }}
                         className="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 rounded-b-lg"
                       >
                         Log out

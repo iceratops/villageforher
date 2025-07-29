@@ -1,31 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Mail, MapPin, Clock, Send, MessageCircle, Calendar } from 'lucide-react';
+import { useContactForm } from '../hooks/useContactForm';
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    subject: '',
-    message: '',
-    preferredContact: 'email',
-    urgency: 'normal'
-  });
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
-    alert('Thank you for your message! We\'ll get back to you within 24 hours.');
-  };
+  const { formData, handleInputChange, handleSubmit } = useContactForm();
 
   return (
     <div className="animate-fade-in">
