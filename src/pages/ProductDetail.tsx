@@ -17,8 +17,56 @@ const ProductDetail: React.FC = () => {
   const outOfStock = (product['Stock Count'] ?? 0) === 0;
   const lowStock = !!product['Low Stock Alert'] && !outOfStock;
 
+  // Debug logging for Snipcart validation
+  console.log('Product Detail Debug:', {
+    productId,
+    productIdFromParams: productId,
+    productIdFromData: product.id,
+    productSlug: product['Slug'],
+    price,
+    name: product['Product Name'],
+    currentOrigin: window.location.origin,
+    productUrl: `${window.location.origin}/products/${product['Slug'] || product.id}`
+  });
+
   return (
     <div className="max-w-4xl mx-auto px-4 py-12">
+      {/* Hidden product data for Snipcart validation */}
+             <div 
+         className="snipcart-add-item" 
+         style={{ display: 'none' }}
+         data-item-id={product.id}
+         data-item-price={price}
+         data-item-url={`${window.location.origin}/products/${product['Slug'] || product.id}`}
+         data-item-description={product['Short Description']}
+         data-item-image={mainImage}
+         data-item-name={product['Product Name']}
+         data-item-min-quantity="1"
+         data-item-stackable="true"
+       />
+
+      {/* Structured data for Snipcart */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "name": product['Product Name'],
+            "description": product['Description'],
+            "image": mainImage,
+            "offers": {
+              "@type": "Offer",
+              "price": price,
+              "priceCurrency": "USD",
+              "availability": outOfStock ? "https://schema.org/OutOfStock" : "https://schema.org/InStock"
+            },
+            "identifier": product.id,
+                         "url": `${window.location.origin}/products/${product['Slug'] || product.id}`
+          })
+        }}
+      />
+      
       <button className="mb-6 text-soft-terracotta hover:underline" onClick={() => navigate(-1)}>&larr; Back to Products</button>
       <div className="flex flex-col md:flex-row gap-8">
         <div className="flex-1">
@@ -53,7 +101,7 @@ const ProductDetail: React.FC = () => {
             className={`snipcart-add-item px-6 py-3 rounded-full font-semibold w-full mt-auto transition-all duration-300 ${outOfStock ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-soft-terracotta text-white hover:bg-deep-sage'}`}
             data-item-id={product.id}
             data-item-price={price}
-            data-item-url={`/products/${product['Slug'] || product.id}`}
+            data-item-url={`${window.location.origin}/products/${product['Slug'] || product.id}`}
             data-item-description={product['Short Description']}
             data-item-image={mainImage}
             data-item-name={product['Product Name']}

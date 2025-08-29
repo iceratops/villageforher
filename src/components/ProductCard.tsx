@@ -13,6 +13,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onViewDetails }) => 
   const outOfStock = stock === 0;
   const lowStock = !!product['Low Stock Alert'] && !outOfStock;
 
+  // Debug logging for cart data
+  console.log('ProductCard Debug:', {
+    productId: product.id,
+    productSlug: product['Slug'],
+    price,
+    name: product['Product Name'],
+    url: `/products/${product['Slug'] || product.id}`
+  });
+
   return (
     <div className={`bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden flex flex-col`}>
       <div className="relative">
@@ -40,7 +49,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onViewDetails }) => 
               className="snipcart-add-item flex-1 px-4 py-2 bg-soft-terracotta text-white font-medium rounded-full hover:bg-deep-sage transition-all duration-300"
               data-item-id={product.id}
               data-item-price={price}
-              data-item-url={`/products/${product['Slug'] || product.id}`}
+              data-item-url={`${window.location.origin}/products/${product['Slug'] || product.id}`}
               data-item-description={product['Short Description']}
               data-item-image={mainImage}
               data-item-name={product['Product Name']}

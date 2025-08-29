@@ -11,7 +11,7 @@
     <meta property="og:title" content="Village For Her - Postpartum Care & Support in Austin, TX" />
     <meta property="og:description" content="Compassionate postpartum care and support for new mothers in Austin, TX. Custom gift boxes, emotional support, and practical help for your postpartum journey." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://villageforher.com" />
+    <meta property="og:url" content="" id="og-url" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -29,7 +29,7 @@
         "addressCountry": "US"
       },
       "telephone": "+1-512-555-0123",
-      "url": "https://villageforher.com",
+      "url": "",
       "serviceArea": {
         "@type": "GeoCircle",
         "geoMidpoint": {
@@ -46,6 +46,18 @@
   </head>
   <body>
     <script>
+      // Set dynamic URLs based on current domain
+      const currentUrl = window.location.origin;
+      document.getElementById('og-url').setAttribute('content', currentUrl);
+      
+      // Update structured data URL
+      const structuredData = document.querySelector('script[type="application/ld+json"]');
+      if (structuredData) {
+        const data = JSON.parse(structuredData.textContent);
+        data.url = currentUrl;
+        structuredData.textContent = JSON.stringify(data);
+      }
+      
       window.SnipcartSettings = {
         publicApiKey: "Njk1MzQ4MzMtMWZmZC00Y2ExLTg1ZjktNjFlZTQwNGRjN2RlNjM4MTY0MDg0NzY4NDM2MjY3",
         loadStrategy: "on-user-interaction",
