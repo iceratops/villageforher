@@ -63,4 +63,39 @@ export function forceCloseCart() {
   if (window.Snipcart && window.Snipcart.api && window.Snipcart.api.theme && typeof window.Snipcart.api.theme.cart.close === 'function') {
     window.Snipcart.api.theme.cart.close();
   }
+}
+
+export interface SnipcartOrder {
+  id: string;
+  invoiceNumber: string;
+  status: string;
+  total: number;
+  currency: string;
+  date: string;
+  items: Array<{
+    id: string;
+    name: string;
+    price: number;
+    quantity: number;
+  }>;
+}
+
+export async function getUserOrders(): Promise<SnipcartOrder[]> {
+  try {
+    const response = await fetch('/.netlify/functions/getOrders', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch orders');
+    }
+    
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching orders:', error);
+    return [];
+  }
 } 

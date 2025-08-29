@@ -14,6 +14,7 @@ import Auth from './pages/Auth';
 import NotFound from './pages/NotFound';
 import ProductDetail from './pages/ProductDetail';
 import Cart from './pages/Cart';
+import Orders from './pages/Orders';
 import ScrollToTop from './components/ScrollToTop';
 import CartDebug from './components/CartDebug';
 
@@ -44,6 +45,7 @@ const AppRoutes: React.FC = () => {
             <Route path="/chat" element={<Chat />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/orders" element={<Orders />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
