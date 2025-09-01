@@ -1,105 +1,77 @@
-import React, { useState, useEffect, useRef } from 'react';
-import HealingChatWindow from './HealingChatWindow';
-import UpgradePrompt from './UpgradePrompt';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useOnboarding } from '../hooks/useOnboarding';
-import { useUserId } from '../hooks/useUserId';
+'use client';
 
-const isPremium = false;
+import { MessageCircleHeart, X } from 'lucide-react';
+import Link from 'next/link';
+import { useState } from 'react';
 
-const FloatingChatWidget: React.FC = () => {
-  const [open, setOpen] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const { onboardingComplete } = useOnboarding();
-  const userId = useUserId();
-  const location = useLocation();
-  const navigate = useNavigate();
-  const userClickedRef = useRef(false);
-
-  useEffect(() => {
-    if (open && !userId && userClickedRef.current) {
-      sessionStorage.setItem('vfh_auth_redirect', location.pathname + location.search);
-      navigate('/auth', { replace: true });
-      userClickedRef.current = false;
-    }
-  }, [open, userId, location, navigate]);
-
-  useEffect(() => {
-    if (open) {
-      setShowModal(true);
-    } else {
-      const timeout = setTimeout(() => setShowModal(false), 300);
-      return () => clearTimeout(timeout);
-    }
-  }, [open]);
-
-  if (!onboardingComplete) return null;
+export default function FloatingChatWidget() {
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
-      {/* Floating button */}
-      {!open && (
-        <button
-          className="fixed bottom-6 right-6 z-50 bg-pink-600 hover:bg-pink-700 text-white rounded-full shadow-lg p-4 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-pink-300"
-          onClick={() => {
-            userClickedRef.current = true;
-            setOpen(true);
-          }}
-          aria-label="Open Healing Chat"
-        >
-          <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="white"/><path d="M8 12h8M12 8v8" stroke="#db2777" strokeWidth="2" strokeLinecap="round"/></svg>
-        </button>
-      )}
-      {/* Modal chat with animation */}
-      {showModal && userId && (
-        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black bg-opacity-40 transition-opacity duration-300">
-          <div
-            className={`bg-white rounded-t-2xl sm:rounded-2xl shadow-xl w-full max-w-md mx-auto p-0 flex flex-col relative 
-              ${open ? 'animate-vfh-pop-in' : 'animate-vfh-pop-out'}
-            `}
-            style={{
-              animationDuration: '300ms',
-              background: 'linear-gradient(135deg, #fdf6f9 0%, #f0f7fa 100%)',
-              boxShadow: '0 8px 32px 0 rgba(236, 72, 153, 0.15)',
-            }}
-          >
-            <div className="relative pt-10 sm:pt-8">
+      {/* Floating Chat Button */}
+      <button
+        type="button"
+        onClick={() => setIsOpen(true)}
+        className="fixed bottom-6 right-6 bg-pink-500 text-white p-4 rounded-full shadow-lg hover:bg-pink-600 transition-colors duration-200 z-50"
+        aria-label="Open chat"
+      >
+        <MessageCircleHeart className="h-6 w-6" />
+      </button>
+
+      {/* Chat Modal */}
+      {isOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[80vh] overflow-y-auto">
+            {/* Header */}
+            <div className="flex items-center justify-between p-6 border-b">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-pink-100 rounded-full flex items-center justify-center">
+                  <MessageCircleHeart className="h-5 w-5 text-pink-600" />
+                </div>
+                <h3 className="font-semibold">Healing Companion</h3>
+              </div>
               <button
-                className="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-2xl font-bold focus:outline-none z-20 bg-white/80 rounded-full px-2 py-0.5 shadow"
-                onClick={() => setOpen(false)}
+                type="button"
+                onClick={() => setIsOpen(false)}
+                className="text-white hover:text-gray-200 transition-colors"
                 aria-label="Close chat"
-                style={{ zIndex: 20 }}
               >
-                ×
+                <X className="h-5 w-5" />
               </button>
-              <div className="p-2 sm:p-4">
-                {!isPremium && <UpgradePrompt />}
-                <HealingChatWindow userId={userId} isPremium={isPremium} />
+            </div>
+
+            {/* Content */}
+            <div className="p-6">
+              <div className="text-center mb-6">
+                <h4 className="text-lg font-semibold text-gray-900 mb-2">
+                  Welcome to Your Healing Journey
+                </h4>
+                <p className="text-gray-600 mb-6">
+                  Connect with our AI-powered healing companion for guidance, reflection, and
+                  emotional support.
+                </p>
+              </div>
+
+              <div className="space-y-3">
+                <Link
+                  href="/chat"
+                  className="block w-full bg-pink-500 text-white py-3 px-4 rounded-lg font-medium hover:bg-pink-600 transition-colors text-center"
+                >
+                  Start Chatting
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => setIsOpen(false)}
+                  className="block w-full bg-gray-100 text-gray-700 py-3 px-4 rounded-lg font-medium hover:bg-gray-200 transition-colors"
+                >
+                  Maybe Later
+                </button>
               </div>
             </div>
           </div>
         </div>
       )}
-      {/* Tailwind custom keyframes for pop-in/pop-out */}
-      <style>{`
-        @keyframes vfh-pop-in {
-          0% { opacity: 0; transform: scale(0.92) translateY(40px); }
-          80% { opacity: 1; transform: scale(1.03) translateY(-4px); }
-          100% { opacity: 1; transform: scale(1) translateY(0); }
-        }
-        @keyframes vfh-pop-out {
-          0% { opacity: 1; transform: scale(1) translateY(0); }
-          100% { opacity: 0; transform: scale(0.92) translateY(40px); }
-        }
-        .animate-vfh-pop-in {
-          animation: vfh-pop-in 300ms cubic-bezier(0.4,0,0.2,1) both;
-        }
-        .animate-vfh-pop-out {
-          animation: vfh-pop-out 300ms cubic-bezier(0.4,0,0.2,1) both;
-        }
-      `}</style>
     </>
   );
-};
-
-export default FloatingChatWidget; 
+}
