@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "export": "next build",
     "lint": "biome lint .",
     "lint:fix": "biome lint --write .",
     "format": "biome format .",

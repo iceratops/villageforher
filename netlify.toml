@@ -1,0 +1,13 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[[redirects]]
+  from = "/products"
+  to = "https://villageforher.square.site/s/shop?utm_source=site&utm_medium=redirect&utm_campaign=shop_link"
+  status = 301
+
+[[redirects]]
+  from = "/products/*"
+  to = "https://villageforher.square.site/s/shop?utm_source=site&utm_medium=redirect&utm_campaign=shop_link"
+  status = 301
