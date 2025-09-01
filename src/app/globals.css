@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --soft-terracotta: #e8b4a0;
+  --deep-sage: #7a918d;
+  --warm-white: #fdfbf7;
+  --warm-blush: #f5e6e3;
+}
+
+body {
+  font-family:
+    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--warm-white);
+}
+
+.font-heading {
+  font-family: "Inter", sans-serif;
+}
+
+

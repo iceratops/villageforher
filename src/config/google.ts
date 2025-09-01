@@ -1,1 +1,1 @@
-export const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID; 
+export const GOOGLE_CLIENT_ID = process.env.PUBLIC_GOOGLE_CLIENT_ID;
