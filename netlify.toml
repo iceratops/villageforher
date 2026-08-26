@@ -2,12 +2,107 @@
   command = "npm run build"
   publish = "out"
 
+[build.environment]
+  NODE_VERSION = "24"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[functions."village-kit-download"]
+  included_files = ["output/pdf/the-village-kit.pdf"]
+
+[[redirects]]
+  from = "/shop"
+  to = "/village-kit/"
+  status = 301
+
+[[redirects]]
+  from = "/shop/*"
+  to = "/village-kit/"
+  status = 301
+
 [[redirects]]
   from = "/products"
-  to = "https://villageforher.square.site/s/shop?utm_source=site&utm_medium=redirect&utm_campaign=shop_link"
+  to = "/village-kit/"
   status = 301
 
 [[redirects]]
   from = "/products/*"
-  to = "https://villageforher.square.site/s/shop?utm_source=site&utm_medium=redirect&utm_campaign=shop_link"
+  to = "/village-kit/"
   status = 301
+
+[[redirects]]
+  from = "/services"
+  to = "/village-kit/"
+  status = 301
+
+[[redirects]]
+  from = "/services/*"
+  to = "/village-kit/"
+  status = 301
+
+[[redirects]]
+  from = "/chat"
+  to = "/free/10-ways-to-help/"
+  status = 301
+
+[[redirects]]
+  from = "/chat/*"
+  to = "/free/10-ways-to-help/"
+  status = 301
+
+[[redirects]]
+  from = "/orders-returns"
+  to = "/policies/digital-delivery/"
+  status = 301
+
+[[redirects]]
+  from = "/orders-returns/*"
+  to = "/policies/digital-delivery/"
+  status = 301
+
+[[redirects]]
+  from = "/shipping"
+  to = "/policies/digital-delivery/"
+  status = 301
+
+[[redirects]]
+  from = "/shipping/*"
+  to = "/policies/digital-delivery/"
+  status = 301
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; base-uri 'self'; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com; font-src 'self'; form-action 'self'; frame-ancestors 'none'; frame-src 'none'; img-src 'self' data: https://www.google-analytics.com; object-src 'none'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests"
+    Permissions-Policy = "camera=(), geolocation=(), microphone=(), payment=()"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Strict-Transport-Security = "max-age=31536000"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+
+[[headers]]
+  for = "/gift/*"
+  [headers.values]
+    Cache-Control = "private, no-store, max-age=0"
+    Referrer-Policy = "no-referrer"
+    X-Robots-Tag = "noindex, noarchive"
+
+[[headers]]
+  for = "/thank-you/village-kit/*"
+  [headers.values]
+    Cache-Control = "private, no-store, max-age=0"
+    Referrer-Policy = "no-referrer"
+    X-Robots-Tag = "noindex, noarchive"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, stale-while-revalidate=604800"
+
+[[headers]]
+  for = "/downloads/*"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+    X-Robots-Tag = "noindex, noarchive"

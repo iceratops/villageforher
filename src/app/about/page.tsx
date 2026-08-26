@@ -1,87 +1,88 @@
+import { socialMetadata } from '@/lib/site';
 import type { Metadata } from 'next';
+import Link from 'next/link';
+
+const description =
+  'Learn how Village For Her makes practical care easier to ask for, organize, give, and receive.';
 
 export const metadata: Metadata = {
-  title: 'About - Village For Her',
-  description: 'Learn about our mission to support women&apos;s healing and wellness journey',
-  openGraph: {
-    title: 'About - Village For Her',
-    description: 'Learn about our mission to support women&apos;s healing and wellness journey',
-    type: 'website',
+  title: 'About',
+  description,
+  alternates: {
+    canonical: '/about/',
   },
+  ...socialMetadata({
+    title: 'About Village For Her',
+    description,
+    path: '/about/',
+    image: '/images/brand-social-card.png',
+  }),
 };
 
 export default function AboutPage() {
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-heading font-bold text-gray-900 mb-4">
-          About Village For Her
-        </h1>
-        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-          A sanctuary for healing, growth, and connection designed specifically for women.
-        </p>
-      </div>
-
-      <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
-        <div>
-          <h2 className="text-2xl font-heading font-semibold text-gray-900 mb-4">Our Mission</h2>
-          <p className="text-gray-600 leading-relaxed mb-6">
-            We believe every woman deserves a supportive space to heal, grow, and thrive. Our
-            mission is to provide carefully curated services that nurture your
-            well-being and support your unique journey.
-          </p>
-          <p className="text-gray-600 leading-relaxed">
-            Through our healing companion AI and thoughtfully selected services, we create a
-            community where women can find the tools and support they need to flourish.
+    <>
+      <section className="page-hero" aria-labelledby="about-heading">
+        <div className="page-shell">
+          <p className="eyebrow">About Village For Her</p>
+          <h1 id="about-heading">Every woman deserves a village.</h1>
+          <p>
+            We create practical tools that make care easier to ask for, organize, give, and receive.
           </p>
         </div>
-        <div className="bg-warm-blush rounded-lg p-8">
-          <h3 className="text-xl font-heading font-semibold text-gray-900 mb-4">What We Offer</h3>
-          <ul className="space-y-3 text-gray-600">
-            <li className="flex items-start">
-              <span className="text-soft-terracotta mr-2">•</span>
-              Healing companion AI
-            </li>
-            <li className="flex items-start">
-              <span className="text-soft-terracotta mr-2">•</span>
-              AI-powered healing companion
-            </li>
-            <li className="flex items-start">
-              <span className="text-soft-terracotta mr-2">•</span>
-              Supportive community space
-            </li>
-            <li className="flex items-start">
-              <span className="text-soft-terracotta mr-2">•</span>
-              Personalized guidance and resources
-            </li>
-          </ul>
-        </div>
-      </div>
+      </section>
 
-      <div className="text-center">
-        <h2 className="text-2xl font-heading font-semibold text-gray-900 mb-6">
-          Join Our Community
-        </h2>
-        <p className="text-gray-600 max-w-2xl mx-auto mb-8">
-          Whether you&apos;re beginning your healing journey or looking to deepen your practice,
-          we&apos;re here to support you every step of the way.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <a
-            href="https://villageforher.square.site/s/shop?utm_source=site&utm_medium=about&utm_campaign=shop_link"
-            className="inline-flex items-center px-8 py-3 rounded-full bg-soft-terracotta text-white font-semibold hover:bg-deep-sage transition-colors duration-200"
-            data-analytics="outbound-shop"
-          >
-            Shop Now
-          </a>
-          <a
-            href="/chat"
-            className="inline-flex items-center px-8 py-3 rounded-full bg-pink-50 text-pink-700 border-2 border-pink-200 font-semibold hover:bg-pink-100 transition-colors duration-200"
-          >
-            Meet Your Healing Companion
-          </a>
-        </div>
-      </div>
-    </div>
+      <article className="page-shell prose-page">
+        <section aria-labelledby="why-we-exist">
+          <h2 id="why-we-exist">Why we exist</h2>
+          <p>
+            People often want to help, but the work of deciding what is needed, asking for it, and
+            coordinating everyone can fall back on the woman already carrying the most. Village For
+            Her helps turn caring intentions into useful action without adding another system for
+            her to manage.
+          </p>
+          <p>
+            Our work is especially relevant during pregnancy and postpartum, but the principle is
+            broader: support should be concrete, respectful, and shaped around the person receiving
+            it.
+          </p>
+        </section>
+
+        <section aria-labelledby="what-we-make">
+          <h2 id="what-we-make">What we make</h2>
+          <p>
+            <strong>The Village Kit</strong> is a digital support-planning toolkit for coordinating
+            meals, errands, household help, visitor boundaries, check-ins, and the other details
+            that make support genuinely useful.
+          </p>
+          <p>
+            Our free guide, <strong>10 Ways to Actually Help a New Mom</strong>, gives friends,
+            relatives, partners, and coworkers a clear place to begin.
+          </p>
+        </section>
+
+        <section aria-labelledby="who-its-for">
+          <h2 id="who-its-for">Made for receiving and giving care</h2>
+          <p>
+            Village For Her is for a woman building support around herself and for anyone who wants
+            to show up for her well. That includes partners, friends, family members, coworkers, and
+            people supporting from a distance.
+          </p>
+          <p>
+            Our resources are practical planning tools. They are not therapy, medical care, a
+            diagnosis, or a substitute for professional support.
+          </p>
+        </section>
+
+        <nav className="button-row" aria-label="Explore Village For Her">
+          <Link className="button" href="/village-kit">
+            Explore The Village Kit
+          </Link>
+          <Link className="button button-secondary" href="/free/10-ways-to-help">
+            Get the free guide
+          </Link>
+        </nav>
+      </article>
+    </>
   );
 }

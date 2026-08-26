@@ -4,9 +4,11 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "next start",
-    "export": "next build",
+    "export": "next build --webpack",
+    "typecheck": "tsc --noEmit",
+    "test": "node --experimental-strip-types --test tests/payments.test.mts",
     "lint": "biome lint .",
     "lint:fix": "biome lint --write .",
     "format": "biome format .",
@@ -14,12 +16,15 @@
     "check": "biome check .",
     "check:fix": "biome check --write ."
   },
+  "engines": {
+    "node": ">=24"
+  },
   "dependencies": {
-    "@react-oauth/google": "^0.12.2",
     "lucide-react": "^0.344.0",
-    "next": "^14.0.0",
+    "next": "^16.3.2",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "stripe": "22.4.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",

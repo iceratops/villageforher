@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="mark-title">
+  <title id="mark-title">Village For Her</title>
+  <path d="M32 51V26" fill="none" stroke="#5B2E46" stroke-width="3" stroke-linecap="round"/>
+  <path d="M31 34C20 35 14 29 14 19c11-1 18 5 17 15Z" fill="#D7B2B8" stroke="#5B2E46" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M33 42c11 1 18-5 18-15-11-1-18 5-18 15Z" fill="#CCD5C6" stroke="#5B2E46" stroke-width="2" stroke-linejoin="round"/>
+  <circle cx="32" cy="16" r="7" fill="#B46777"/>
+</svg>

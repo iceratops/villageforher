@@ -1,93 +1,86 @@
-'use client';
-
-import { useId } from 'react';
+import Link from 'next/link';
 
 export default function ContactPage() {
-  const nameId = useId();
-  const emailId = useId();
-  const messageId = useId();
-
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-heading font-bold text-gray-900 mb-4">Contact Us</h1>
-        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-          We&apos;re here to support you on your healing journey. Get in touch with any questions or
-          to join our community.
-        </p>
-      </div>
-
-      <div className="grid md:grid-cols-2 gap-12">
-        <div>
-          <h2 className="text-2xl font-heading font-semibold text-gray-900 mb-6">Get in Touch</h2>
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Email</h3>
-              <p className="text-gray-600">hello@villageforher.com</p>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Support Hours</h3>
-              <p className="text-gray-600">Monday - Friday: 9 AM - 6 PM EST</p>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Community</h3>
-              <p className="text-gray-600">
-                Join our supportive community of women on their healing journey.
-              </p>
-            </div>
-          </div>
+    <>
+      <section className="page-hero" aria-labelledby="contact-heading">
+        <div className="page-shell">
+          <p className="eyebrow">Contact</p>
+          <h1 id="contact-heading">How can we help?</h1>
+          <p>
+            Ask a question about The Village Kit, a purchase, or digital access. We will use the
+            details you send only as described in our{' '}
+            <Link href="/policies/privacy/">privacy policy</Link>.
+          </p>
         </div>
+      </section>
 
-        <div className="bg-warm-blush rounded-lg p-8">
-          <h2 className="text-2xl font-heading font-semibold text-gray-900 mb-6">
-            Send us a Message
-          </h2>
-          <form className="space-y-4">
-            <div>
-              <label htmlFor={nameId} className="block text-sm font-medium text-gray-700 mb-1">
-                Name
+      <div className="page-shell prose-page">
+        <section aria-labelledby="contact-form-heading">
+          <h2 id="contact-form-heading">Send a message</h2>
+          <form
+            className="form-shell"
+            name="contact"
+            method="POST"
+            action="/contact/thank-you/"
+            data-netlify="true"
+            data-netlify-honeypot="bot-field"
+          >
+            <input type="hidden" name="form-name" value="contact" />
+
+            <p hidden>
+              <label htmlFor="contact-company">
+                Do not fill out this field
+                <input
+                  id="contact-company"
+                  name="bot-field"
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
               </label>
-              <input
-                type="text"
-                id={nameId}
-                name="name"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-soft-terracotta focus:border-transparent"
-                required
-              />
+            </p>
+
+            <div className="form-field">
+              <label htmlFor="contact-name">Name</label>
+              <input id="contact-name" name="name" type="text" autoComplete="name" required />
             </div>
-            <div>
-              <label htmlFor={emailId} className="block text-sm font-medium text-gray-700 mb-1">
-                Email
-              </label>
+
+            <div className="form-field">
+              <label htmlFor="contact-email">Email</label>
               <input
-                type="email"
-                id={emailId}
+                id="contact-email"
                 name="email"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-soft-terracotta focus:border-transparent"
+                type="email"
+                inputMode="email"
+                autoComplete="email"
                 required
               />
             </div>
-            <div>
-              <label htmlFor={messageId} className="block text-sm font-medium text-gray-700 mb-1">
-                Message
-              </label>
-              <textarea
-                id={messageId}
-                name="message"
-                rows={4}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-soft-terracotta focus:border-transparent"
-                required
-              ></textarea>
+
+            <div className="form-field">
+              <label htmlFor="contact-message">Message</label>
+              <textarea id="contact-message" name="message" rows={7} required />
             </div>
-            <button
-              type="submit"
-              className="w-full bg-soft-terracotta text-white py-3 px-6 rounded-lg font-semibold hover:bg-deep-sage transition-colors duration-200"
-            >
-              Send Message
+
+            <button className="button" type="submit">
+              Send message
             </button>
+
+            <p className="form-status">
+              For order or download help, include the email used at checkout. Never send a full card
+              number or other sensitive payment details.
+            </p>
           </form>
-        </div>
+        </section>
+
+        <section aria-labelledby="email-heading">
+          <h2 id="email-heading">Prefer email?</h2>
+          <p>
+            Write to <a href="mailto:hello@villageforher.com">hello@villageforher.com</a>.
+          </p>
+        </section>
       </div>
-    </div>
+    </>
   );
 }

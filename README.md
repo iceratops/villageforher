@@ -1,82 +1,112 @@
-# Village For Her - Next.js Migration
+# Village For Her
 
-This project has been migrated from Vite to Next.js (App Router) for improved SEO, static site generation, and better performance.
+Launch funnel for Village For Her, built with the Next.js App Router and deployed as a static
+export on Netlify. New purchases use Stripe Checkout; Square is legacy and is not part of the
+active customer journey.
 
-## Features
+## Customer journey
 
-- **Next.js 14** with App Router
-- **Static Site Generation (SSG)** for all pages
-- **SEO Optimized** with metadata, robots.txt, and sitemap
-- **Square Online Store Integration** - All commerce now handled externally
-- **Netlify Deployment** ready
+- `/` explains the brand and routes self-purchasers, gift buyers, and supporters.
+- `/village-kit/` sells the $12 one-time digital Village Kit.
+- `/free/10-ways-to-help/` captures a lead through Netlify Forms and delivers the free PDF.
+- Stripe returns a paid customer to `/thank-you/village-kit/`.
+- Netlify Functions verify payment and issue time-limited access to the paid PDF.
+- Gift purchasers receive a private link for one recipient; v1 does not email recipients
+  automatically.
 
-## Environment Variables
+The paid PDF remains in `output/pdf/` and is bundled only with the download function. It must not
+be copied into `public/`.
 
-The following environment variables are required:
+## Local development
 
-- `PUBLIC_SITE_ORIGIN` - Your site's origin URL (e.g., "https://villageforher.com")
-
-### Square Online Store URLs (Optional)
-- `STORE_URL` - Your Square Online store URL (e.g., "https://shop.villageforher.com")
-- `ACCOUNT_URL` - Your Square Online customer account URL (e.g., "https://shop.villageforher.com/account")
-
-## Setup
-
-1. Install dependencies:
 ```bash
 npm install
-```
-
-2. Set up environment variables in your `.env.local` file:
-```env
-PUBLIC_SITE_ORIGIN=https://your-site.com
-STORE_URL=https://shop.your-site.com
-ACCOUNT_URL=https://shop.your-site.com/account
-```
-
-3. Run the development server:
-```bash
 npm run dev
 ```
 
-4. Build for production:
+Static pages work in the Next.js development server. End-to-end checkout requires Netlify's local
+function runtime or a deploy preview with Stripe test credentials.
+
+## Environment variables
+
+Copy `.env.example` and configure values locally or in Netlify. Never commit values.
+
+- `PUBLIC_SITE_ORIGIN`: canonical origin and Stripe return origin, with no path or trailing slash.
+- `STRIPE_API_KEY`: restricted Stripe key (`rk_...`) used only by Netlify Functions.
+- `STRIPE_WEBHOOK_SECRET`: signing secret for `/api/stripe/webhook`.
+- `STRIPE_VILLAGE_KIT_PRICE_ID`: active one-time USD Price for exactly `$12.00`.
+- `STRIPE_VILLAGE_KIT_LEGACY_PRICE_IDS`: optional comma-separated prior Price IDs for the same
+  `$12` v1 offer, so open and historical purchases remain valid after a Price replacement.
+- `STRIPE_MODE`: `test` outside production and `live` in production.
+- `DOWNLOAD_TOKEN_SECRET`: random secret of at least 32 bytes for signed download access.
+- `RESEND_API_KEY`: optional Resend sending-only key for purchase-access email delivery.
+- `PURCHASE_EMAIL_FROM`: verified Resend sender, such as
+  `Village For Her <hello@send.villageforher.com>`.
+- `PURCHASE_EMAIL_REPLY_TO`: reply address for purchase-access emails; defaults to
+  `hello@villageforher.com`.
+- `NEXT_PUBLIC_GA_MEASUREMENT_ID`: optional GA4 measurement ID. Funnel events are still exposed as
+  `vfh:funnel` browser events when GA4 is unset.
+
+Scope secrets to Netlify Functions. Use test values for deploy previews and live values only in
+the production context. Netlify supplies `CONTEXT`, `URL`, and `DEPLOY_PRIME_URL`. Each endpoint
+loads only the secrets it uses. The code validates deploy context, credential mode, price, origin,
+amount, line items, and fulfillment metadata before granting access; production also rejects
+unrestricted Stripe keys.
+
+## Stripe and fulfillment
+
+Create one Checkout Price for The Village Kit: one-time, USD, `$12.00`. A restricted production
+key should permit Checkout Sessions write access and Prices read access. Configure a webhook for:
+
+- `checkout.session.completed`
+- `checkout.session.async_payment_succeeded`
+
+Webhook signatures are verified from the raw request body. Fulfillment is idempotent and recorded
+on the Checkout Session. The success redirect is never accepted as payment proof. Access and each
+download are revalidated server-side. Download URLs use authenticated-encrypted 15-minute tokens;
+the durable gift capability remains in a browser-only URL fragment.
+
+When Resend is configured, the webhook emails the purchaser a durable access-page link after
+verified payment. The link keeps the Checkout Session capability in the URL fragment, and the
+server revalidates payment before issuing each short-lived download. Resend requests and Stripe
+delivery metadata are idempotent so webhook retries do not normally duplicate email.
+
+To revoke a compromised or unauthorized purchase manually, set Checkout Session metadata
+`access_revoked=true`; access and downloads will then fail closed. Link rotation and automatic
+refund/dispute revocation remain Phase 2. `STRIPE_VILLAGE_KIT_LEGACY_PRICE_IDS` is only for prior
+Price IDs representing the same `$12` v1 offer—a future amount or product-version change needs an
+explicit versioned catalog update.
+
+Stripe Tax is intentionally not enabled in code. Confirm registrations and tax configuration
+before enabling it in Stripe.
+
+## Forms
+
+Netlify discovers form definitions in `public/__forms.html`.
+
+- `free-guide-lead`: email and optional marketing consent
+- `contact`: name, email, and message
+
+The free PDF remains directly available if lead capture fails. Follow-up email automation is not
+part of v1.
+
+## Quality checks
+
 ```bash
+npm run typecheck
+npm test
+npm run check
 npm run build
+npm audit --omit=dev
 ```
 
-## API Endpoints
-
-- `/robots.txt` - SEO robots file
-- `/sitemap.xml` - SEO sitemap
-
-## Pages
-
-- `/` - Homepage with Shop CTA
-- `/about` - About page with mission and services
-- `/services` - Services overview with healing companion and shop links
-- `/orders-returns` - Order tracking and policy information
-- `/contact` - Contact information
-- `/chat` - Healing companion AI interface
-
-## Square Online Integration
-
-- All commerce functionality moved to Square Online store
-- Navigation includes Shop link to external store (no Account link on main site)
-- 301 redirects from `/products` and `/products/*` to Square Online store
-- UTM parameters added to all external links for analytics tracking
-- Orders & Returns page provides policy links to Square Online
+Payment tests cover configuration boundaries, checkout metadata and recovery URLs, fixed product
+validation, paid-session validation, duplicate fulfillment, raw webhook signature verification,
+authenticated-encrypted entitlement expiry/tampering, and request safeguards.
 
 ## Deployment
 
-This project is configured for Netlify deployment with static export. The build process generates static files that can be served from any CDN.
-
-## Migration Notes
-
-- Removed all Vite-specific files and configurations
-- Migrated from React Router to Next.js App Router
-- Implemented SSG for all pages
-- Added comprehensive SEO metadata
-- Decommissioned Snipcart and Airtable integrations
-- Moved all commerce to Square Online store
-- Added navigation links to external store
-- Legacy product pages show minimal content with external CTAs 
+`netlify.toml` builds with Node 24, publishes `out/`, bundles the protected PDF only with the
+download function, retires legacy customer routes with 301 redirects, and applies security and
+cache headers. Each function owns its `/api/*` path and method; checkout and access also use
+Netlify code-based rate limits.

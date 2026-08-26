@@ -1,45 +1,59 @@
+import { absoluteUrl } from '@/lib/site';
 import type { MetadataRoute } from 'next';
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.PUBLIC_SITE_ORIGIN || 'http://localhost:3000';
+const updatedAt = new Date('2026-08-25T00:00:00.000Z');
+export const dynamic = 'force-static';
 
-  // Return sitemap with content pages only (excludes product pages)
+export default function sitemap(): MetadataRoute.Sitemap {
   return [
+    { url: absoluteUrl('/'), lastModified: updatedAt, changeFrequency: 'weekly', priority: 1 },
     {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 1,
+      url: absoluteUrl('/village-kit/'),
+      lastModified: updatedAt,
+      changeFrequency: 'monthly',
+      priority: 0.95,
     },
     {
-      url: `${baseUrl}/about`,
-      lastModified: new Date(),
+      url: absoluteUrl('/free/10-ways-to-help/'),
+      lastModified: updatedAt,
       changeFrequency: 'monthly',
-      priority: 0.7,
+      priority: 0.85,
     },
     {
-      url: `${baseUrl}/services`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/orders-returns`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
+      url: absoluteUrl('/about/'),
+      lastModified: updatedAt,
+      changeFrequency: 'yearly',
       priority: 0.6,
     },
     {
-      url: `${baseUrl}/contact`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.6,
+      url: absoluteUrl('/contact/'),
+      lastModified: updatedAt,
+      changeFrequency: 'yearly',
+      priority: 0.5,
     },
     {
-      url: `${baseUrl}/chat`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
+      url: absoluteUrl('/policies/digital-delivery/'),
+      lastModified: updatedAt,
+      changeFrequency: 'yearly',
+      priority: 0.35,
+    },
+    {
+      url: absoluteUrl('/policies/refunds/'),
+      lastModified: updatedAt,
+      changeFrequency: 'yearly',
+      priority: 0.35,
+    },
+    {
+      url: absoluteUrl('/policies/privacy/'),
+      lastModified: updatedAt,
+      changeFrequency: 'yearly',
+      priority: 0.3,
+    },
+    {
+      url: absoluteUrl('/policies/terms/'),
+      lastModified: updatedAt,
+      changeFrequency: 'yearly',
+      priority: 0.3,
     },
   ];
 }
