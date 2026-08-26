@@ -43,9 +43,9 @@ Copy `.env.example` and configure values locally or in Netlify. Never commit val
 - `DOWNLOAD_TOKEN_SECRET`: random secret of at least 32 bytes for signed download access.
 - `RESEND_API_KEY`: optional Resend sending-only key for purchase-access email delivery.
 - `PURCHASE_EMAIL_FROM`: verified Resend sender, such as
-  `Village For Her <hello@send.villageforher.com>`.
+  `Village For Her <hello@send.thevillageforher.com>`.
 - `PURCHASE_EMAIL_REPLY_TO`: reply address for purchase-access emails; defaults to
-  `hello@villageforher.com`.
+  `hello@thevillageforher.com`.
 - `NEXT_PUBLIC_GA_MEASUREMENT_ID`: optional GA4 measurement ID. Funnel events are still exposed as
   `vfh:funnel` browser events when GA4 is unset.
 

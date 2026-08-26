@@ -7,7 +7,7 @@ import {
 } from './payments.mts';
 
 const RESEND_ENDPOINT = 'https://api.resend.com/emails';
-const DEFAULT_REPLY_TO = 'hello@villageforher.com';
+const DEFAULT_REPLY_TO = 'hello@thevillageforher.com';
 
 export interface PurchaseEmailConfig {
   apiKey: string;
