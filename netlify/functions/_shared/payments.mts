@@ -205,7 +205,8 @@ function loadStripeConfig(environment: Readonly<Record<string, string | undefine
   const apiKey = requiredEnvironmentValue(environment, 'STRIPE_API_KEY');
   const priceId = requiredEnvironmentValue(environment, 'STRIPE_VILLAGE_KIT_PRICE_ID');
   const rawMode = requiredEnvironmentValue(environment, 'STRIPE_MODE');
-  const context = environment.CONTEXT?.trim() || 'dev';
+  const context =
+    environment.PAYMENT_DEPLOY_CONTEXT?.trim() || environment.CONTEXT?.trim() || 'dev';
 
   if (!ALLOWED_CONTEXTS.has(context)) {
     throw new PaymentConfigurationError('CONTEXT is not supported.');

@@ -145,6 +145,20 @@ test('production config accepts only matching live credentials and HTTPS', () =>
   );
 });
 
+test('explicit payment deploy context works when Netlify runtime omits CONTEXT', () => {
+  assert.doesNotThrow(() =>
+    loadPaymentConfig(
+      testEnvironment({
+        STRIPE_API_KEY: 'rk_live_examplekey123',
+        STRIPE_MODE: 'live',
+        CONTEXT: undefined,
+        PAYMENT_DEPLOY_CONTEXT: 'production',
+        PUBLIC_SITE_ORIGIN: 'https://thevillageforher.com',
+      })
+    )
+  );
+});
+
 test('endpoint configs require only the secrets they use', () => {
   const withoutWebhook = testEnvironment({ STRIPE_WEBHOOK_SECRET: undefined });
   assert.equal(loadCheckoutConfig(withoutWebhook).priceId, PRICE_ID);

@@ -47,6 +47,7 @@ export async function handler(event: FunctionEvent): Promise<FunctionResponse> {
       return jsonResponse(400, { error: 'Please check your purchase selection.' });
     }
     if (error instanceof PaymentConfigurationError) {
+      console.error('Checkout configuration error:', error.message);
       return jsonResponse(503, {
         error: 'Checkout is temporarily unavailable. Please try again later.',
       });

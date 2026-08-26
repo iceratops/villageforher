@@ -38,6 +38,8 @@ Copy `.env.example` and configure values locally or in Netlify. Never commit val
 - `STRIPE_VILLAGE_KIT_LEGACY_PRICE_IDS`: optional comma-separated prior Price IDs for the same
   `$12` v1 offer, so open and historical purchases remain valid after a Price replacement.
 - `STRIPE_MODE`: `test` outside production and `live` in production.
+- `PAYMENT_DEPLOY_CONTEXT`: explicit payment runtime context (`dev`, `deploy-preview`,
+  `branch-deploy`, or `production`). Set this to `production` for the live Netlify site.
 - `DOWNLOAD_TOKEN_SECRET`: random secret of at least 32 bytes for signed download access.
 - `RESEND_API_KEY`: optional Resend sending-only key for purchase-access email delivery.
 - `PURCHASE_EMAIL_FROM`: verified Resend sender, such as
@@ -47,8 +49,9 @@ Copy `.env.example` and configure values locally or in Netlify. Never commit val
 - `NEXT_PUBLIC_GA_MEASUREMENT_ID`: optional GA4 measurement ID. Funnel events are still exposed as
   `vfh:funnel` browser events when GA4 is unset.
 
-Scope secrets to Netlify Functions. Use test values for deploy previews and live values only in
-the production context. Netlify supplies `CONTEXT`, `URL`, and `DEPLOY_PRIME_URL`. Each endpoint
+Use test values for deploy previews and live values only in the production context. Netlify
+supplies `URL` and `DEPLOY_PRIME_URL`; `PAYMENT_DEPLOY_CONTEXT` makes the function runtime context
+explicit when `CONTEXT` is not present. Each endpoint
 loads only the secrets it uses. The code validates deploy context, credential mode, price, origin,
 amount, line items, and fulfillment metadata before granting access; production also rejects
 unrestricted Stripe keys.
